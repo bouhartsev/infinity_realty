@@ -2,11 +2,10 @@ package app
 
 import (
 	"fmt"
+	"github.com/bouhartsev/infinity_realty/internal/config"
 
 	"github.com/ilyakaznacheev/cleanenv"
 	"go.uber.org/zap"
-
-	"github.com/bouhartsev/infinity_realty/server/internal/config"
 )
 
 type application struct {

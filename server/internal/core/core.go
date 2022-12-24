@@ -1,10 +1,9 @@
 package core
 
 import (
+	"github.com/bouhartsev/infinity_realty/internal/config"
 	"github.com/jackc/pgx"
 	"go.uber.org/zap"
-
-	"github.com/bouhartsev/infinity_realty/server/internal/config"
 )
 
 type Core struct {

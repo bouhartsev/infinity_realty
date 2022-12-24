@@ -9,10 +9,6 @@ import (
 
 	"github.com/jackc/pgx"
 	"go.uber.org/zap"
-
-	"github.com/bouhartsev/infinity_realty/server/internal/config"
-	"github.com/bouhartsev/infinity_realty/server/internal/core"
-	"github.com/bouhartsev/infinity_realty/server/internal/database"
 )
 
 type Server struct {
