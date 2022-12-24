@@ -2,6 +2,12 @@ package server
 
 import (
 	"context"
+	"encoding/json"
+	"errors"
+	"github.com/bouhartsev/infinity_realty/internal/config"
+	"github.com/bouhartsev/infinity_realty/internal/core"
+	"github.com/bouhartsev/infinity_realty/internal/database"
+	"github.com/bouhartsev/infinity_realty/internal/domain/errdomain"
 	"net/http"
 	"os"
 	"os/signal"
@@ -80,4 +86,18 @@ func (s *Server) Run() error {
 
 		return nil
 	}()
+}
+
+func (s *Server) ParseError(err error, w http.ResponseWriter) {
+	var e errdomain.AppError
+
+	if errors.As(err, &e) {
+		w.WriteHeader(e.HttpCode)
+		data, _ := json.Marshal(&e)
+		_, _ = w.Write(data)
+	} else {
+		w.WriteHeader(http.StatusInternalServerError)
+		data, _ := json.Marshal(&errdomain.AppError{Message: err.Error()})
+		_, _ = w.Write(data)
+	}
 }

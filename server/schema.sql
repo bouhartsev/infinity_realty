@@ -1,20 +1,15 @@
-create table if not exists clients (
+create table if not exists users (
     id serial primary key,
+    role smallint not null,
     name text,
     surname text,
     patronymic text,
     tel text,
     email text,
+    commission float4,
+    password text not null,
 
     constraint either_email check ((email is null) <> (tel is null))
-);
-
-create table if not exists realtors (
-    id serial primary key,
-    name text not null,
-    surname text not null,
-    patronymic text not null,
-    commission float4
 );
 
 create table if not exists properties (
@@ -32,25 +27,17 @@ create table if not exists properties (
     floor_count int2
 );
 
-create table if not exists realtors (
-    id serial primary key,
-    name text not null,
-    surname text not null,
-    patronymic text not null,
-    commission float4
-);
-
 create table if not exists offers (
     id serial primary key,
-    client_id int4 not null references clients(id),
-    realtor_id int4 not null references realtors(id),
+    client_id int4 not null references users(id),
+    realtor_id int4 not null references users(id),
     property_id int4 not null references properties(id),
     price int not null
 );
 
 create table if not exists needs (
       id serial primary key,
-      client_id int4 not null references clients(id),
+      client_id int4 not null references users(id),
       property_type int2 not null,
       property_address_city text,
       property_address_street text,
@@ -79,7 +66,7 @@ create table if not exists deals (
 
 create table if not exists events (
      id serial primary key,
-     realtor_id int4 not null references realtors(id),
+     realtor_id int4 not null references users(id),
      datetime timestamp not null,
      duration time not null,
      type int2 not null,
