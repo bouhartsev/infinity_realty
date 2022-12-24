@@ -17,5 +17,7 @@ func (s *Server) initRoutes() *httprouter.Router {
 	r.HandlerFunc(http.MethodPatch, "/api/users/:user_id", s.checkAuthMW(s.UpdateUser))
 	r.HandlerFunc(http.MethodDelete, "/api/users/:user_id", s.checkAuthMW(s.DeleteUser))
 
+	r.HandlerFunc(http.MethodGet, "/api/docs", s.GetDocs)
+
 	return r
 }

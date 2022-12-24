@@ -1,0 +1,13 @@
+version: "3.7"
+
+services:
+  server:
+    container_name: server
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    networks:
+      - default
+    ports:
+      - "8000:8000"
