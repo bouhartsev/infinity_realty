@@ -7,20 +7,21 @@ import (
 	"go.uber.org/zap"
 
 	"github.com/bouhartsev/infinity_realty/internal/config"
+	"github.com/bouhartsev/infinity_realty/internal/database"
 	"github.com/bouhartsev/infinity_realty/internal/domain"
 	"github.com/bouhartsev/infinity_realty/internal/domain/errdomain"
 )
 
 type Core struct {
 	logger *zap.Logger
-	db     *pgxpool.Pool
+	db     *database.Database
 	cfg    *config.Config
 }
 
 func NewCore(l *zap.Logger, db *pgxpool.Pool, c *config.Config) *Core {
 	return &Core{
 		logger: l,
-		db:     db,
+		db:     &database.Database{Conn: db},
 		cfg:    c,
 	}
 }

@@ -6,6 +6,10 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
+type Database struct {
+	Conn *pgxpool.Pool
+}
+
 func NewConnection(connString string) (*pgxpool.Pool, error) {
 	cfg, err := pgxpool.ParseConfig(connString)
 	if err != nil {

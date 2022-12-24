@@ -8,4 +8,9 @@ var (
 		Code:     "user:not_found",
 		HttpCode: http.StatusNotFound,
 	}
+	UserHasNeedsError = AppError{
+		Message:  "User has needs dependency.",
+		Code:     "user:has_needs",
+		HttpCode: http.StatusBadRequest,
+	}
 )

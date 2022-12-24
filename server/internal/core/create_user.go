@@ -2,6 +2,9 @@ package core
 
 import (
 	"context"
+	"errors"
+
+	"github.com/jackc/pgx/v5"
 
 	"github.com/bouhartsev/infinity_realty/internal/domain"
 	"github.com/bouhartsev/infinity_realty/internal/domain/errdomain"
@@ -17,26 +20,34 @@ func (c *Core) CreateUser(ctx context.Context, req *domain.CreateUserRequest) (*
 		return nil, errdomain.ForbiddenError
 	}
 
-	if err = req.Validate(); err != nil {
+	if err := req.Validate(); err != nil {
 		return nil, err
 	}
 
-	var createdId int
-	err = c.db.QueryRow(ctx, `insert into users(role, name, surname, patronymic, tel, email, commission, password)
-							 values($1, $2, $3, $4, $5, $6, $7, $8)
-							 returning id`,
-		req.Role,
-		req.Name,
-		req.Surname,
-		req.Patronymic,
-		req.Telephone,
-		req.Email,
-		req.Commission,
-		req.Password,
-	).Scan(&createdId)
+	if req.Email != nil {
+		err := c.db.CheckUserEmail(ctx, *req.Email)
+		if err != nil && !errors.Is(err, pgx.ErrNoRows) {
+			return nil, errdomain.NewInternalError(err.Error())
+		}
+		if err == nil {
+			return nil, errdomain.NewUserError("Email already taken.", "email")
+		}
+	}
+
+	if req.Telephone != nil {
+		err := c.db.CheckUserTelephone(ctx, *req.Telephone)
+		if err != nil && !errors.Is(err, pgx.ErrNoRows) {
+			return nil, errdomain.NewInternalError(err.Error())
+		}
+		if err == nil {
+			return nil, errdomain.NewUserError("Telephone already taken.", "telephone")
+		}
+	}
+
+	id, err := c.db.CreateUser(ctx, req)
 	if err != nil {
 		return nil, errdomain.NewInternalError(err.Error())
 	}
 
-	return c.GetUser(ctx, createdId)
+	return c.GetUser(ctx, id)
 }

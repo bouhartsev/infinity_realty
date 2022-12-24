@@ -11,18 +11,16 @@ import (
 )
 
 func (c *Core) SignUp(ctx context.Context, req *domain.CreateUserRequest) error {
-	if err := req.Validate(); err != nil {
-		return err
-	}
-
 	if req.Role == 1 {
 		return errdomain.NewUserError("Incorrect role provided.", "role")
 	}
 
-	var userId int
+	if err := req.Validate(); err != nil {
+		return err
+	}
 
 	if req.Email != nil {
-		err := c.db.QueryRow(ctx, "select id from users where lower(email) = lower($1)", req.Email).Scan(&userId)
+		err := c.db.CheckUserEmail(ctx, *req.Email)
 		if err != nil && !errors.Is(err, pgx.ErrNoRows) {
 			return errdomain.NewInternalError(err.Error())
 		}
@@ -32,7 +30,7 @@ func (c *Core) SignUp(ctx context.Context, req *domain.CreateUserRequest) error 
 	}
 
 	if req.Telephone != nil {
-		err := c.db.QueryRow(ctx, "select id from users where lower(telephone) = lower($1)", req.Telephone).Scan(&userId)
+		err := c.db.CheckUserTelephone(ctx, *req.Telephone)
 		if err != nil && !errors.Is(err, pgx.ErrNoRows) {
 			return errdomain.NewInternalError(err.Error())
 		}
@@ -41,20 +39,9 @@ func (c *Core) SignUp(ctx context.Context, req *domain.CreateUserRequest) error 
 		}
 	}
 
-	_, err := c.db.Exec(ctx, `insert into users(role, name, surname, patronymic, tel, email, commission, password)
-							 values($1, $2, $3, $4, $5, $6, $7, $8)`,
-		req.Role,
-		req.Name,
-		req.Surname,
-		req.Patronymic,
-		req.Telephone,
-		req.Email,
-		req.Commission,
-		req.Password,
-	)
+	_, err := c.db.CreateUser(ctx, req)
 	if err != nil {
 		return errdomain.NewInternalError(err.Error())
 	}
-
-	return nil
+	return err
 }

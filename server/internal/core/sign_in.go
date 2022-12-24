@@ -13,22 +13,7 @@ import (
 )
 
 func (c *Core) SignIn(ctx context.Context, request *domain.SignInRequest) (*domain.SignInResponse, error) {
-	var user domain.User
-
-	q := "select id, role, name, surname, patronymic, tel, email, commission from users where (email = $1 or tel = $1) and password = $2"
-
-	row := c.db.QueryRow(ctx, q, request.Login, request.Password)
-
-	err := row.Scan(
-		&user.Id,
-		&user.Role,
-		&user.Name,
-		&user.Surname,
-		&user.Patronymic,
-		&user.Telephone,
-		&user.Email,
-		&user.Commission,
-	)
+	user, err := c.db.GetUserByCredentials(ctx, request.Login, request.Password)
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
 			return nil, errdomain.InvalidCredentialsError
@@ -41,7 +26,7 @@ func (c *Core) SignIn(ctx context.Context, request *domain.SignInRequest) (*doma
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Minute * 60)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 		},
-		User: user,
+		User: *user,
 	}
 
 	token, err := jwt.NewWithClaims(jwt.SigningMethodHS256, claims).SignedString([]byte(c.cfg.TokenKey))
@@ -50,5 +35,5 @@ func (c *Core) SignIn(ctx context.Context, request *domain.SignInRequest) (*doma
 		return nil, errdomain.NewInternalError(err.Error())
 	}
 
-	return &domain.SignInResponse{Token: token, User: user}, nil
+	return &domain.SignInResponse{Token: token, User: *user}, nil
 }
