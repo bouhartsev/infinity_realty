@@ -2,9 +2,10 @@ package server
 
 import (
 	"encoding/json"
-	"github.com/bouhartsev/infinity_realty/internal/domain/errdomain"
 	"io"
 	"net/http"
+
+	"github.com/bouhartsev/infinity_realty/internal/domain/errdomain"
 )
 
 func (s *Server) ReadJson(data any, r *http.Request, w http.ResponseWriter) error {
@@ -23,6 +24,7 @@ func (s *Server) ReadJson(data any, r *http.Request, w http.ResponseWriter) erro
 
 func (s *Server) Json(data any, status int, w http.ResponseWriter) {
 	buf, _ := json.Marshal(data)
+	w.Header().Add("Content-Type", "application/json")
 	w.WriteHeader(status)
 	_, _ = w.Write(buf)
 }

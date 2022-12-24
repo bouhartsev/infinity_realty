@@ -6,7 +6,7 @@ type AppError struct {
 	Message  string  `json:"message"`
 	Code     string  `json:"code"`
 	HttpCode int     `json:"-"`
-	Field    *string `json:"field"`
+	Field    *string `json:"field,omitempty"`
 }
 
 func (e AppError) Error() string {

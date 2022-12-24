@@ -1,17 +1,18 @@
 package database
 
-import "github.com/jackc/pgx"
+import (
+	"context"
 
-func NewConnection(connString string) (*pgx.ConnPool, error) {
-	cfg, err := pgx.ParseConnectionString(connString)
+	"github.com/jackc/pgx/v5/pgxpool"
+)
+
+func NewConnection(connString string) (*pgxpool.Pool, error) {
+	cfg, err := pgxpool.ParseConfig(connString)
 	if err != nil {
 		return nil, err
 	}
 
-	conn, err := pgx.NewConnPool(pgx.ConnPoolConfig{
-		ConnConfig:     cfg,
-		MaxConnections: 25,
-	})
+	conn, err := pgxpool.NewWithConfig(context.Background(), cfg)
 	if err != nil {
 		return nil, err
 	}

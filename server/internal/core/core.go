@@ -2,20 +2,22 @@ package core
 
 import (
 	"context"
+
+	"github.com/jackc/pgx/v5/pgxpool"
+	"go.uber.org/zap"
+
 	"github.com/bouhartsev/infinity_realty/internal/config"
 	"github.com/bouhartsev/infinity_realty/internal/domain"
 	"github.com/bouhartsev/infinity_realty/internal/domain/errdomain"
-	"github.com/jackc/pgx"
-	"go.uber.org/zap"
 )
 
 type Core struct {
 	logger *zap.Logger
-	db     *pgx.ConnPool
+	db     *pgxpool.Pool
 	cfg    *config.Config
 }
 
-func NewCore(l *zap.Logger, db *pgx.ConnPool, c *config.Config) *Core {
+func NewCore(l *zap.Logger, db *pgxpool.Pool, c *config.Config) *Core {
 	return &Core{
 		logger: l,
 		db:     db,

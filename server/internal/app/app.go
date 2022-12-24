@@ -2,6 +2,7 @@ package app
 
 import (
 	"fmt"
+
 	"github.com/bouhartsev/infinity_realty/internal/config"
 
 	"github.com/ilyakaznacheev/cleanenv"

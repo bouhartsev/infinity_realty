@@ -1,8 +1,9 @@
 package domain
 
 import (
-	"github.com/bouhartsev/infinity_realty/internal/domain/errdomain"
 	"regexp"
+
+	"github.com/bouhartsev/infinity_realty/internal/domain/errdomain"
 )
 
 type (
@@ -12,7 +13,7 @@ type (
 		Name       string   `json:"name"`
 		Surname    string   `json:"surname"`
 		Patronymic string   `json:"patronymic"`
-		Email      *string  `json:"email"`
+		Email      *string  `json:"email,omitempty"`
 		Telephone  *string  `json:"telephone,omitempty"`
 		Commission *float32 `json:"commission,omitempty"`
 		Password   string   `json:"-"`
@@ -24,9 +25,9 @@ type (
 		Patronymic string   `json:"patronymic"`
 		Password   string   `json:"password"`
 		Role       int      `json:"role"`
-		Email      *string  `json:"email"`
-		Telephone  *string  `json:"telephone"`
-		Commission *float32 `json:"commission"`
+		Email      *string  `json:"email,omitempty"`
+		Telephone  *string  `json:"telephone,omitempty"`
+		Commission *float32 `json:"commission,omitempty"`
 	}
 
 	GetUserResponse struct {

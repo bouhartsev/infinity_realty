@@ -2,11 +2,13 @@ package server
 
 import (
 	"context"
-	"github.com/bouhartsev/infinity_realty/internal/domain"
-	"github.com/bouhartsev/infinity_realty/internal/domain/errdomain"
-	"github.com/golang-jwt/jwt/v4"
 	"net/http"
 	"strings"
+
+	"github.com/golang-jwt/jwt/v4"
+
+	"github.com/bouhartsev/infinity_realty/internal/domain"
+	"github.com/bouhartsev/infinity_realty/internal/domain/errdomain"
 )
 
 func (s *Server) checkAuthMW(handler http.HandlerFunc) http.HandlerFunc {

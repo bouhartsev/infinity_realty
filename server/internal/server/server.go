@@ -2,18 +2,19 @@ package server
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
-	"github.com/bouhartsev/infinity_realty/internal/config"
-	"github.com/bouhartsev/infinity_realty/internal/core"
-	"github.com/bouhartsev/infinity_realty/internal/database"
-	"github.com/bouhartsev/infinity_realty/internal/domain/errdomain"
 	"net/http"
 	"os"
 	"os/signal"
 	"time"
 
-	"github.com/jackc/pgx"
+	"github.com/jackc/pgx/v5/pgxpool"
+
+	"github.com/bouhartsev/infinity_realty/internal/config"
+	"github.com/bouhartsev/infinity_realty/internal/core"
+	"github.com/bouhartsev/infinity_realty/internal/database"
+	"github.com/bouhartsev/infinity_realty/internal/domain/errdomain"
+
 	"go.uber.org/zap"
 )
 
@@ -21,7 +22,7 @@ type Server struct {
 	logger *zap.Logger
 	cfg    *config.Config
 	core   *core.Core
-	db     *pgx.ConnPool
+	db     *pgxpool.Pool
 }
 
 func New(l *zap.Logger, c *config.Config) (*Server, error) {
@@ -71,10 +72,6 @@ func (s *Server) Run() error {
 	return func() error {
 		s.logger.Info("shutting down the Server...")
 
-		s.db.Close()
-
-		s.logger.Info("database had shut down")
-
 		err := httpServer.Shutdown(ctx)
 
 		if err != nil {
@@ -92,12 +89,8 @@ func (s *Server) ParseError(err error, w http.ResponseWriter) {
 	var e errdomain.AppError
 
 	if errors.As(err, &e) {
-		w.WriteHeader(e.HttpCode)
-		data, _ := json.Marshal(&e)
-		_, _ = w.Write(data)
+		s.Json(e, e.HttpCode, w)
 	} else {
-		w.WriteHeader(http.StatusInternalServerError)
-		data, _ := json.Marshal(&errdomain.AppError{Message: err.Error()})
-		_, _ = w.Write(data)
+		s.Json(&errdomain.AppError{Message: err.Error()}, http.StatusInternalServerError, w)
 	}
 }
