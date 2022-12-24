@@ -1,0 +1,2 @@
+port: :8000
+db: postgres://postgres:password@localhost:5432/realty
