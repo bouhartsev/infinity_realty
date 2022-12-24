@@ -72,3 +72,6 @@ create table if not exists events (
      type int2 not null,
      comment text
 );
+
+insert into users(role,name,surname,patronymic,email,password)
+values(1, 'Admin', '', '', 'admin', 'admin');

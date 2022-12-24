@@ -59,11 +59,11 @@ func (req CreateUserRequest) Validate() error {
 	if req.Email == nil && req.Telephone == nil {
 		return errdomain.NewInvalidRequestError("Either email or telephone must be specified.")
 	} else {
-		if req.Email != nil && !regexp.MustCompile("").MatchString(*req.Email) {
-			return errdomain.NewUserError("Email specified in invalid format.", "email")
+		if req.Email != nil && !regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$").MatchString(*req.Email) {
+			return errdomain.NewUserError("Email specified in invalid format. Valid format: something@mail.com.", "email")
 		}
-		if req.Telephone != nil && !regexp.MustCompile("").MatchString(*req.Telephone) {
-			return errdomain.NewUserError("Telephone specified in invalid format.", "telephone")
+		if req.Telephone != nil && !regexp.MustCompile("8[0-9]{10}").MatchString(*req.Telephone) {
+			return errdomain.NewUserError("Telephone specified in invalid format. Valid format: 8XXXXXXXXX.", "telephone")
 		}
 	}
 

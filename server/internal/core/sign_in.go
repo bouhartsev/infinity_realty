@@ -15,7 +15,7 @@ import (
 func (c *Core) SignIn(ctx context.Context, request *domain.SignInRequest) (*domain.SignInResponse, error) {
 	var user domain.User
 
-	q := "select id, role, name, surname, patronymic, tel, email, commission from users where (email = $1 or telephone = $1) and password = $2"
+	q := "select id, role, name, surname, patronymic, tel, email, commission from users where (email = $1 or tel = $1) and password = $2"
 
 	row := c.db.QueryRow(ctx, q, request.Login, request.Password)
 
