@@ -10,10 +10,10 @@ import (
 )
 
 // CreateUser godoc
-// @Summary Создает пользователя.
+// @Summary CreateUser.
 // @Description
 // @Tags Users
-// @Param input body domain.CreateUserRequest true "JSON input"
+// @Param input body domain.CreateUserRequest true "Также обязательны либо `email`, либо `telephone`, либо оба."
 // @Success 200 {object} domain.User
 // @Failure 400 {object} errdomain.AppError
 // @Failure 500 {object} errdomain.AppError
@@ -34,7 +34,7 @@ func (s *Server) CreateUser(w http.ResponseWriter, r *http.Request) {
 }
 
 // GetUser godoc
-// @Summary Возвращает информацию о пользователе.
+// @Summary GetUser.
 // @Description
 // @Tags Users
 // @Param user_id path int true "Идентификатор пользователя"
@@ -55,7 +55,7 @@ func (s *Server) GetUser(w http.ResponseWriter, r *http.Request) {
 }
 
 // UpdateUser godoc
-// @Summary Обновляет пользователя.
+// @Summary UpdateUser.
 // @Description
 // @Tags Users
 // @Param user_id path int true "Идентификатор пользователя"
@@ -64,7 +64,7 @@ func (s *Server) GetUser(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {object} errdomain.AppError
 // @Failure 404 {object} errdomain.AppError
 // @Failure 500 {object} errdomain.AppError
-// @Router /api/users/{user_id} [post]
+// @Router /api/users/{user_id} [patch]
 func (s *Server) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	var input domain.UpdateUserRequest
 	if err := s.ReadJson(&input, r, w); err != nil {
@@ -83,7 +83,7 @@ func (s *Server) UpdateUser(w http.ResponseWriter, r *http.Request) {
 }
 
 // DeleteUser godoc
-// @Summary Удаляет пользователя.
+// @Summary DeleteUser.
 // @Description
 // @Tags Users
 // @Param user_id path int true "Идентификатор пользователя"
@@ -91,7 +91,7 @@ func (s *Server) UpdateUser(w http.ResponseWriter, r *http.Request) {
 // @Failure 403 {object} errdomain.AppError
 // @Failure 404 {object} errdomain.AppError
 // @Failure 500 {object} errdomain.AppError
-// @Router /api/users/{user_id} [get]
+// @Router /api/users/{user_id} [delete]
 func (s *Server) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	id, _ := strconv.Atoi(httprouter.ParamsFromContext(r.Context()).ByName("user_id"))
 

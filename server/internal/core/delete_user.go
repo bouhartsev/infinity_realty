@@ -18,7 +18,7 @@ func (c *Core) DeleteUser(ctx context.Context, id int) error {
 		return errdomain.ForbiddenError
 	}
 
-	_, err = c.db.GetUser(ctx, id)
+	_, err = c.GetUser(ctx, id)
 	if err != nil {
 		return err
 	}
@@ -33,7 +33,7 @@ func (c *Core) DeleteUser(ctx context.Context, id int) error {
 
 	err = c.db.DeleteUser(ctx, id)
 	if err != nil {
-		return err
+		return errdomain.NewInternalError(err.Error())
 	}
 
 	return nil

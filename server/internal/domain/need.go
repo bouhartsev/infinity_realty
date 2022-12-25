@@ -6,7 +6,7 @@ type Need struct {
 	ClientId      int             `json:"clientId"`
 	RealtorId     int             `json:"realtorId"`
 	Address       PropertyAddress `json:"address"`
-	PropertyType  PropertyType    `json:"propertyType"`
+	PropertyType  int8            `json:"propertyType"`
 	MinSquare     *int            `json:"minSquare"`
 	MaxSquare     *int            `json:"maxSquare"`
 	MinRooms      *int            `json:"minRooms"`

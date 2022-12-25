@@ -20,25 +20,25 @@ type (
 	}
 
 	CreateUserRequest struct {
-		Name       string   `json:"name"`
-		Surname    string   `json:"surname"`
-		Patronymic string   `json:"patronymic"`
-		Password   string   `json:"password"`
-		Role       int      `json:"role"`
-		Email      *string  `json:"email,omitempty"`
-		Telephone  *string  `json:"telephone,omitempty"`
-		Commission *float32 `json:"commission,omitempty"`
+		Name       string   `json:"name" validate:"required"`               // Имя
+		Surname    string   `json:"surname" validate:"required"`            // Фамилия
+		Patronymic string   `json:"patronymic" validate:"required"`         // Отчество
+		Password   string   `json:"password" validate:"required"`           // Пароль
+		Role       int      `json:"role" enums:"1,2,3" validate:"required"` // Роль(1 - Admin, 2 - Realtor, 3 - Client)
+		Email      *string  `json:"email,omitempty"`                        // Email
+		Telephone  *string  `json:"telephone,omitempty"`                    // Телефон
+		Commission *float32 `json:"commission,omitempty"`                   // Комиссия(только у риэлтора)
 	}
 
 	UpdateUserRequest struct {
 		UserId     int      `json:"-"`
-		Name       *string  `json:"name,omitempty"`
-		Surname    *string  `json:"surname,omitempty"`
-		Patronymic *string  `json:"patronymic,omitempty"`
-		Password   *string  `json:"password,omitempty"`
-		Email      *string  `json:"email,omitempty"`
-		Telephone  *string  `json:"telephone,omitempty"`
-		Commission *float32 `json:"commission,omitempty"`
+		Name       *string  `json:"name,omitempty"`                   // Имя
+		Surname    *string  `json:"surname,omitempty"`                // Фамилия
+		Patronymic *string  `json:"patronymic,omitempty"`             // Отчество
+		Password   *string  `json:"password,omitempty"`               // Пароль
+		Email      *string  `json:"email,omitempty"`                  // Email
+		Telephone  *string  `json:"telephone,omitempty"`              // Телефон
+		Commission *float32 `json:"commission,omitempty" minimum:"0"` // Комиссия(только у риэлтора)
 	}
 
 	GetUserResponse struct {
