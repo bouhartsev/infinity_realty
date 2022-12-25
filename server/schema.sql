@@ -1,15 +1,20 @@
-create table if not exists users (
+create table if not exists clients (
     id serial primary key,
-    role smallint not null,
-    name text,
-    surname text,
-    patronymic text,
+    name text not null,
+    surname text not null,
+    patronymic text not null,
     tel text,
     email text,
-    commission float4,
-    password text not null,
 
     constraint either_email check ((email is null) <> (tel is null))
+);
+
+create table if not exists realtors (
+    id serial primary key,
+    name text not null,
+    surname text not null,
+    patronymic text not null,
+    commission float4
 );
 
 create table if not exists properties (
@@ -22,22 +27,24 @@ create table if not exists properties (
     cords_latitude float4,
     cords_longitude float4,
     floor int2,
+    floor_count int2,
     room_count int2,
-    square int2,
-    floor_count int2
+    square int2
 );
 
 create table if not exists offers (
     id serial primary key,
-    client_id int4 not null references users(id),
-    realtor_id int4 not null references users(id),
+    client_id int4 not null references clients(id),
+    realtor_id int4 not null references realtors(id),
     property_id int4 not null references properties(id),
-    price int not null
+    price int not null,
+    confirmed bool default false
 );
 
 create table if not exists needs (
       id serial primary key,
-      client_id int4 not null references users(id),
+      client_id int4 not null references clients(id),
+      realtor_id int4 not null references realtors(id),
       property_type int2 not null,
       property_address_city text,
       property_address_street text,
@@ -52,26 +59,21 @@ create table if not exists needs (
       min_floor_count int2,
       max_floor_count int2,
       min_price int not null,
-      max_price int not null
+      max_price int not null,
+      confirmed bool default false
 );
 
 create table if not exists deals (
     id serial primary key,
     need_id int4 not null references needs(id),
-    offer_id int4 not null references offers(id),
-    company_commission float4 not null,
-    realtor_commission float4 not null,
-    client_commission float4 not null
+    offer_id int4 not null references offers(id)
 );
 
-create table if not exists events (
+create table if not exists events(
      id serial primary key,
-     realtor_id int4 not null references users(id),
+     realtor_id int4 not null references realtors(id),
      datetime timestamp not null,
      duration time not null,
      type int2 not null,
      comment text
 );
-
-insert into users(role,name,surname,patronymic,email,password)
-values(1, 'Admin', '', '', 'admin', 'admin');

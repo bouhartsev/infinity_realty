@@ -60,7 +60,7 @@ func (s *Server) GetProperty(w http.ResponseWriter, r *http.Request) {
 // @Tags Properties
 // @Param property_id path int true "Идентификатор объекта недвижимости"
 // @Param input body domain.UpdatePropertyRequest true "JSON input"
-// @Success 200 {object} domain.User
+// @Success 200 {object} domain.Client
 // @Failure 400 {object} errdomain.AppError
 // @Failure 404 {object} errdomain.AppError
 // @Failure 500 {object} errdomain.AppError

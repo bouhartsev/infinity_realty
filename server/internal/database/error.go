@@ -3,6 +3,6 @@ package database
 import "errors"
 
 var (
-	ErrUserHasNeeds      = errors.New("user has needs")
+	ErrClientHasNeeds    = errors.New("client has needs")
 	ErrPropertyHasOffers = errors.New("property has offers")
 )

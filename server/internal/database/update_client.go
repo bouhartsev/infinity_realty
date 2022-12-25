@@ -8,7 +8,7 @@ import (
 	"github.com/bouhartsev/infinity_realty/internal/domain"
 )
 
-func (d *Database) UpdateUser(ctx context.Context, req *domain.UpdateUserRequest) error {
+func (d *Database) UpdateClient(ctx context.Context, req *domain.UpdateClientRequest) error {
 	var (
 		argId  = 1
 		args   = make([]any, 0)
@@ -45,21 +45,9 @@ func (d *Database) UpdateUser(ctx context.Context, req *domain.UpdateUserRequest
 		argId++
 	}
 
-	if req.Commission != nil {
-		args = append(args, *req.Commission)
-		values = append(values, fmt.Sprintf("commission = $%d", argId))
-		argId++
-	}
-
-	if req.Password != nil {
-		args = append(args, *req.Password)
-		values = append(values, fmt.Sprintf("password = $%d", argId))
-		argId++
-	}
-
 	q := strings.Join(values, ",")
-	query := fmt.Sprintf("update users set %s where id = $%d", q, argId)
-	args = append(args, req.UserId)
+	query := fmt.Sprintf("update clients set %s where id = $%d", q, argId)
+	args = append(args, req.ClientId)
 
 	_, err := d.Conn.Exec(ctx, query, args...)
 	return err

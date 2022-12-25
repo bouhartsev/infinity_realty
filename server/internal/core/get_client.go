@@ -10,13 +10,13 @@ import (
 	"github.com/bouhartsev/infinity_realty/internal/domain/errdomain"
 )
 
-func (c *Core) GetUser(ctx context.Context, id int) (*domain.GetUserResponse, error) {
-	user, err := c.db.GetUser(ctx, id)
+func (c *Core) GetClient(ctx context.Context, id int) (*domain.GetClientResponse, error) {
+	user, err := c.db.GetClient(ctx, id)
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
-			return nil, errdomain.UserNotFoundError
+			return nil, errdomain.ClientNotFoundError
 		}
 		return nil, errdomain.NewInternalError(err.Error())
 	}
-	return &domain.GetUserResponse{User: user}, nil
+	return &domain.GetClientResponse{Client: user}, nil
 }
