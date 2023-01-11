@@ -1,20 +1,56 @@
 package domain
 
-// Need - потребность
-type Need struct {
-	Id            int             `json:"id"`
-	ClientId      int             `json:"clientId"`
-	RealtorId     int             `json:"realtorId"`
-	Address       PropertyAddress `json:"address"`
-	PropertyType  int8            `json:"propertyType"`
-	MinSquare     *int            `json:"minSquare"`
-	MaxSquare     *int            `json:"maxSquare"`
-	MinRooms      *int            `json:"minRooms"`
-	MaxRooms      *int            `json:"maxRooms"`
-	MinFloor      *int            `json:"minFloor"`
-	MaxFloor      *int            `json:"maxFloor"`
-	MaxFloorCount *int            `json:"maxFloorCount"`
-	MinFloorCount *int            `json:"minFloorCount"`
-	MinPrice      int             `json:"minPrice"`
-	MaxPrice      int             `json:"maxPrice"`
-}
+type (
+	Need struct {
+		Id            int             `json:"id"`
+		ClientId      int             `json:"clientId"`
+		RealtorId     int             `json:"realtorId"`
+		PropertyType  int8            `json:"propertyType"`
+		Address       PropertyAddress `json:"address,omitempty"`
+		MinSquare     *int            `json:"minSquare,omitempty"`
+		MaxSquare     *int            `json:"maxSquare,omitempty"`
+		MinRooms      *int            `json:"minRooms,omitempty"`
+		MaxRooms      *int            `json:"maxRooms,omitempty"`
+		MinFloor      *int            `json:"minFloor,omitempty"`
+		MaxFloor      *int            `json:"maxFloor,omitempty"`
+		MaxFloorCount *int            `json:"maxFloorCount,omitempty"`
+		MinFloorCount *int            `json:"minFloorCount,omitempty"`
+		MinPrice      *int            `json:"minPrice,omitempty"`
+		MaxPrice      *int            `json:"maxPrice,omitempty"`
+	}
+
+	CreateNeedRequest struct {
+		ClientId      int             `json:"clientId"`
+		RealtorId     int             `json:"realtorId"`
+		PropertyType  int8            `json:"propertyType"`
+		Address       PropertyAddress `json:"address"`
+		MinSquare     *int            `json:"minSquare,omitempty"`
+		MaxSquare     *int            `json:"maxSquare,omitempty"`
+		MinRooms      *int            `json:"minRooms,omitempty"`
+		MaxRooms      *int            `json:"maxRooms,omitempty"`
+		MinFloor      *int            `json:"minFloor,omitempty"`
+		MaxFloor      *int            `json:"maxFloor,omitempty"`
+		MaxFloorCount *int            `json:"maxFloorCount,omitempty"`
+		MinFloorCount *int            `json:"minFloorCount,omitempty"`
+		MinPrice      *int            `json:"minPrice,omitempty"`
+		MaxPrice      *int            `json:"maxPrice,omitempty"`
+	}
+
+	UpdateNeedRequest struct {
+		NeedId        int              `json:"-"`
+		ClientId      *int             `json:"clientId"`
+		RealtorId     *int             `json:"realtorId"`
+		PropertyType  *int8            `json:"propertyType"`
+		Address       *PropertyAddress `json:"address"`
+		MinSquare     *int             `json:"minSquare,omitempty"`
+		MaxSquare     *int             `json:"maxSquare,omitempty"`
+		MinRooms      *int             `json:"minRooms,omitempty"`
+		MaxRooms      *int             `json:"maxRooms,omitempty"`
+		MinFloor      *int             `json:"minFloor,omitempty"`
+		MaxFloor      *int             `json:"maxFloor,omitempty"`
+		MaxFloorCount *int             `json:"maxFloorCount,omitempty"`
+		MinFloorCount *int             `json:"minFloorCount,omitempty"`
+		MinPrice      *int             `json:"minPrice,omitempty"`
+		MaxPrice      *int             `json:"maxPrice,omitempty"`
+	}
+)

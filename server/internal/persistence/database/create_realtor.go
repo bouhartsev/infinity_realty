@@ -7,18 +7,21 @@ import (
 )
 
 func (d *Database) CreateRealtor(ctx context.Context, req *domain.CreateRealtorRequest) (int, error) {
-	var createdId int
-	err := d.Conn.QueryRow(ctx, `insert into realtors(name, surname, patronymic, commission)
-							 values($1, $2, $3, $4)
-							 returning id`,
+	res, err := d.Conn.ExecContext(ctx, `insert into realtors(name, surname, patronymic, commission)
+							 values(?, ?, ?, ?)`,
 		req.Name,
 		req.Surname,
 		req.Patronymic,
 		req.Commission,
-	).Scan(&createdId)
+	)
 	if err != nil {
 		return 0, err
 	}
 
-	return createdId, nil
+	id, err := res.LastInsertId()
+	if err != nil {
+		return 0, err
+	}
+
+	return int(id), nil
 }

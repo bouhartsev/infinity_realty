@@ -7,9 +7,7 @@ import (
 )
 
 func (d *Database) CreateProperty(ctx context.Context, req *domain.CreatePropertyRequest) (int, error) {
-	var id int
-
-	row := d.Conn.QueryRow(ctx, "insert into properties(type, address_city, address_street, address_building, address_floor, cords_latitude, cords_longitude, floor, room_count, square, floor_count) values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) returning id",
+	res, err := d.Conn.ExecContext(ctx, "insert into properties(type, address_city, address_street, address_building, address_floor, cords_latitude, cords_longitude, floor, room_count, square, floor_count) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
 		req.Type,
 		req.Address.City,
 		req.Address.Street,
@@ -22,9 +20,14 @@ func (d *Database) CreateProperty(ctx context.Context, req *domain.CreatePropert
 		req.Square,
 		req.FloorCount,
 	)
-	if err := row.Scan(&id); err != nil {
+	if err != nil {
 		return 0, err
 	}
 
-	return id, nil
+	id, err := res.LastInsertId()
+	if err != nil {
+		return 0, err
+	}
+
+	return int(id), nil
 }

@@ -9,7 +9,7 @@ import (
 func (d *Database) GetProperty(ctx context.Context, id int) (*domain.Property, error) {
 	var prop domain.Property
 
-	row := d.Conn.QueryRow(ctx, `select id, type, address_city, address_street, address_building, address_floor, cords_latitude, cords_longitude, floor, room_count, square, floor_count from properties where id = $1`, id)
+	row := d.Conn.QueryRowContext(ctx, `select id, type, address_city, address_street, address_building, address_floor, cords_latitude, cords_longitude, floor, room_count, square, floor_count from properties where id = ?`, id)
 	err := row.Scan(
 		&prop.Id,
 		&prop.Type,

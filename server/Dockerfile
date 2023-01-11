@@ -24,6 +24,6 @@ RUN redoc-cli build \
 
 RUN go build -o server main.go
 
-EXPOSE 3000
+EXPOSE 4000
 
 CMD ["./server"]

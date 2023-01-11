@@ -19,6 +19,11 @@ func (s *Server) initRoutes() *httprouter.Router {
 	r.HandlerFunc(http.MethodPatch, "/api/realtors/:realtor_id", s.UpdateRealtor)
 	r.HandlerFunc(http.MethodDelete, "/api/realtors/:realtor_id", s.DeleteRealtor)
 
+	r.HandlerFunc(http.MethodPost, "/api/offers", s.CreateOffer)
+	r.HandlerFunc(http.MethodGet, "/api/offers/:offer_id", s.GetOffer)
+	r.HandlerFunc(http.MethodPatch, "/api/offers/:offer_id", s.UpdateOffer)
+	r.HandlerFunc(http.MethodDelete, "/api/offers/:offer_id", s.DeleteOffer)
+
 	r.HandlerFunc(http.MethodPost, "/api/properties", s.CreateProperty)
 	r.HandlerFunc(http.MethodGet, "/api/properties/:property_id", s.GetProperty)
 	r.HandlerFunc(http.MethodPatch, "/api/properties/:property_id", s.UpdateProperty)

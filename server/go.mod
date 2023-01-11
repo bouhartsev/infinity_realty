@@ -3,7 +3,7 @@ module github.com/bouhartsev/infinity_realty
 go 1.19
 
 require (
-	github.com/golang-jwt/jwt/v4 v4.4.3
+	github.com/go-sql-driver/mysql v1.7.0
 	github.com/ilyakaznacheev/cleanenv v1.4.2
 	github.com/jackc/pgx/v5 v5.2.0
 	github.com/julienschmidt/httprouter v1.3.0

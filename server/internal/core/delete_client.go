@@ -4,8 +4,8 @@ import (
 	"context"
 	"errors"
 
-	"github.com/bouhartsev/infinity_realty/internal/database"
 	"github.com/bouhartsev/infinity_realty/internal/domain/errdomain"
+	"github.com/bouhartsev/infinity_realty/internal/persistence/database"
 )
 
 func (c *Core) DeleteClient(ctx context.Context, id int) error {

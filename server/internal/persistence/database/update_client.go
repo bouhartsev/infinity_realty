@@ -10,45 +10,39 @@ import (
 
 func (d *Database) UpdateClient(ctx context.Context, req *domain.UpdateClientRequest) error {
 	var (
-		argId  = 1
 		args   = make([]any, 0)
 		values []string
 	)
 
 	if req.Name != nil {
 		args = append(args, *req.Name)
-		values = append(values, fmt.Sprintf("name = $%d", argId))
-		argId++
+		values = append(values, "name = ?")
 	}
 
 	if req.Surname != nil {
 		args = append(args, *req.Surname)
-		values = append(values, fmt.Sprintf("surname = $%d", argId))
-		argId++
+		values = append(values, "surname = ?")
 	}
 
 	if req.Patronymic != nil {
 		args = append(args, *req.Patronymic)
-		values = append(values, fmt.Sprintf("patronymic = $%d", argId))
-		argId++
+		values = append(values, "patronymic = ?")
 	}
 
 	if req.Email != nil {
 		args = append(args, *req.Email)
-		values = append(values, fmt.Sprintf("email = $%d", argId))
-		argId++
+		values = append(values, "email = ?")
 	}
 
 	if req.Telephone != nil {
 		args = append(args, *req.Telephone)
-		values = append(values, fmt.Sprintf("tel = $%d", argId))
-		argId++
+		values = append(values, "tel = ?")
 	}
 
 	q := strings.Join(values, ",")
-	query := fmt.Sprintf("update clients set %s where id = $%d", q, argId)
+	query := fmt.Sprintf("update clients set %s where id = ?", q)
 	args = append(args, req.ClientId)
 
-	_, err := d.Conn.Exec(ctx, query, args...)
+	_, err := d.Conn.ExecContext(ctx, query, args...)
 	return err
 }

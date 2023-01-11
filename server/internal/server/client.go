@@ -43,7 +43,7 @@ func (s *Server) CreateClient(w http.ResponseWriter, r *http.Request) {
 // @Failure 500 {object} errdomain.AppError
 // @Router /api/clients/{client_id} [get]
 func (s *Server) GetClient(w http.ResponseWriter, r *http.Request) {
-	id, _ := strconv.Atoi(httprouter.ParamsFromContext(r.Context()).ByName("user_id"))
+	id, _ := strconv.Atoi(httprouter.ParamsFromContext(r.Context()).ByName("client_id"))
 
 	response, err := s.core.GetClient(r.Context(), id)
 	if err != nil {
@@ -71,7 +71,7 @@ func (s *Server) UpdateClient(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	input.ClientId, _ = strconv.Atoi(httprouter.ParamsFromContext(r.Context()).ByName("user_id"))
+	input.ClientId, _ = strconv.Atoi(httprouter.ParamsFromContext(r.Context()).ByName("client_id"))
 
 	response, err := s.core.UpdateClient(r.Context(), &input)
 	if err != nil {
@@ -93,7 +93,7 @@ func (s *Server) UpdateClient(w http.ResponseWriter, r *http.Request) {
 // @Failure 500 {object} errdomain.AppError
 // @Router /api/clients/{client_id} [delete]
 func (s *Server) DeleteClient(w http.ResponseWriter, r *http.Request) {
-	id, _ := strconv.Atoi(httprouter.ParamsFromContext(r.Context()).ByName("user_id"))
+	id, _ := strconv.Atoi(httprouter.ParamsFromContext(r.Context()).ByName("client_id"))
 
 	err := s.core.DeleteClient(r.Context(), id)
 	if err != nil {

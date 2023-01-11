@@ -1,2 +1,2 @@
-port: :8000
-db: postgres://couchuser:couchpass@localhost:5432/realty
+port: :4000
+db: root:password@tcp(realty_db:3307)/realty

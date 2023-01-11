@@ -1,13 +1,37 @@
 version: "3.7"
 
 services:
-  server:
-    container_name: server
+  db:
+    image: mysql:latest
+    container_name: realty_db
+    restart: always
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./server/schema.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      default:
+        aliases:
+          - realty_db
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: realty
+
+  realty-server:
+    container_name: realty-server
     restart: on-failure
+    links:
+      - db
     build:
       context: .
       dockerfile: server/Dockerfile
     networks:
       - default
+    depends_on:
+      - db
     ports:
-      - "8000:8000"
+      - "4000:4000"
+
+volumes:
+  mysql-data:

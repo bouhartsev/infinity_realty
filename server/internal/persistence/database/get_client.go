@@ -8,7 +8,7 @@ import (
 
 func (d *Database) GetClient(ctx context.Context, id int) (*domain.Client, error) {
 	var client domain.Client
-	err := d.Conn.QueryRow(ctx, `select id, name, surname, patronymic, tel, email from clients where id = $1`, id).Scan(
+	err := d.Conn.QueryRowContext(ctx, `select id, name, surname, patronymic, tel, email from clients where id = ?`, id).Scan(
 		&client.Id,
 		&client.Name,
 		&client.Surname,

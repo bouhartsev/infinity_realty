@@ -9,7 +9,7 @@ import (
 
 func (d *Database) CheckPropertyDependency(ctx context.Context, id int) error {
 	var propId int
-	err := d.Conn.QueryRow(ctx, "select id from offers where property_id = $1", id).Scan(&propId)
+	err := d.Conn.QueryRowContext(ctx, "select id from offers where property_id = ?", id).Scan(&propId)
 	if err == nil {
 		return ErrPropertyHasOffers
 	}

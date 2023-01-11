@@ -12,8 +12,8 @@ import (
 
 	"github.com/bouhartsev/infinity_realty/internal/config"
 	"github.com/bouhartsev/infinity_realty/internal/core"
-	"github.com/bouhartsev/infinity_realty/internal/database"
 	"github.com/bouhartsev/infinity_realty/internal/domain/errdomain"
+	"github.com/bouhartsev/infinity_realty/internal/persistence/database"
 
 	"go.uber.org/zap"
 )
@@ -31,7 +31,7 @@ func New(l *zap.Logger, c *config.Config) (*Server, error) {
 		cfg:    c,
 	}
 
-	conn, err := database.NewConnection(s.cfg.DatabaseConnection)
+	conn, err := database.NewMySQLConnection(s.cfg.DatabaseConnection)
 
 	if err != nil {
 		return nil, err
