@@ -10,7 +10,6 @@ import {
 import { ReactElement } from "react";
 
 type ColorOptions =
-  | "standard"
   | "primary"
   | "secondary"
   | "error"
@@ -19,7 +18,7 @@ type ColorOptions =
   | "warning";
 
 export const entities: {
-  [key: string]: { label: string; color: ColorOptions; icon: ReactElement };
+  [key: string]: { label: string; color?: ColorOptions; icon: ReactElement };
 } = {
   clients: {
     label: "Clients",
@@ -28,7 +27,6 @@ export const entities: {
   },
   agents: {
     label: "Agents",
-    color: "standard",
     icon: <Hail />,
   },
   realty: {
