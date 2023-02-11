@@ -1,6 +1,6 @@
 import { Container } from "@mui/material";
 import React from "react";
-import { FC, ReactElement } from "react";
+import { FC } from "react";
 import { useParams } from "react-router-dom";
 
 import clients from "./clients";

@@ -1,10 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import {
   Backdrop,
-  Card,
-  CardContent,
-  CardHeader,
-  Chip,
   Grid,
   SpeedDial,
   SpeedDialAction,
@@ -12,15 +8,15 @@ import {
   TextField,
   ToggleButton,
   ToggleButtonGroup,
-  Typography,
 } from "@mui/material";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../app/store";
 import styles from "./index.module.css";
 import { useDebouncedCallback } from "use-debounce";
 import { entities } from "app/entities";
 
 import { tstore } from "app/store";
+import SearchItem from "./SearchItem";
 
 function Search() {
   // const count = useAppSelector(selectCount);
@@ -102,43 +98,7 @@ function Search() {
       <Grid container spacing={4}>
         {cards.map((card) => (
           <Grid item key={card.id} xs={12} sm={6} md={4}>
-            <Card
-              component={Link}
-              to={`/form/${card.type + "/" + card.id}`}
-              sx={{
-                height: "100%",
-                display: "flex",
-                flexDirection: "column",
-                textDecoration: "none",
-              }}
-            >
-              <CardHeader
-                title={`${card.lname} ${card.fname} ${card.mname}`}
-                action={
-                  <Chip
-                    color={
-                      !!entities[card.type].color
-                        ? entities[card.type].color
-                        : "default"
-                    }
-                    label={card.type}
-                    sx={{ cursor: "pointer" }}
-                  />
-                }
-              />
-              {/* <Typography gutterBottom variant="h6" component="h2">
-                    
-                  </Typography> */}
-              {/* <Chip color="primary" sx={{ float: "right" }} /> */}
-              <CardContent sx={{ flexGrow: 1 }}>
-                {Object.keys(card).map((key: string) => (
-                  <Typography key={card.id+key}>
-                    <b>{key}: </b>
-                    {card[key]}
-                  </Typography>
-                ))}
-              </CardContent>
-            </Card>
+            <SearchItem data={card} />
           </Grid>
         ))}
       </Grid>
